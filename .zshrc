@@ -1,27 +1,39 @@
+#zsh global options
 autoload -U compinit
 compinit
-export PATH=/opt/bin:/opt/local/bin:/sw:/sw2:${EC2_AMITOOL_HOME}bin:${EC2_HOME}bin/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
-export SVN_EDITOR="emacs"
-export GREP_OPTIONS="--exclude-dir=.svn --binary-files=without-match --color=auto"
-#export MODULEBUILDRC="/Users/sugizou/perl5/.modulebuildrc"
-#export PERL_MM_OPT="INSTALL_BASE=/Users/sugizou/perl5"
-#export PERL5LIB="/Users/sugizou/perl5/lib/perl5:/Users/sugizou/perl5/lib/perl5/darwin-2level"
+autoload predict-on
+
+setopt auto_cd 
+setopt list_packed
+setopt nolistbeep
+setopt auto_pushd
+setopt complete_aliases
+setopt hist_ignore_dups
+setopt share_history
+
+zstyle ':completion:*' list-colors ''
 
 PROMPT=""
 RPROMPT2=""
-RPROMPT="%{[33m%}[%n@%d]%{[m%}"
-RPROMPT2="%{[32m%}[%n@:%d]%{[m%}"
+RPROMPT="%{[33m%}[%d]%{[m%}"
+RPROMPT2="%{[32m%}[%d]%{[m%}"
 SPROMPT=""
 RSPROMPT="%r is correct? [n,y,a,e]: "
 
-#base alias
+#gloval setting
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+
+#base aliases
 alias ll="ls -la"
+alias ls="ls -G -w"
 alias rr="rm -rf"
 alias rm="rm -i"
-alias startapache="sudo /opt/local/apache2/bin/apachectl"
-alias startpsql="sudo su postgres -c '/opt/local/lib/postgresql82/bin/postgres -D /opt/local/var/db/postgresql82/defaultdb' &"
-alias startmysql="sudo /opt/local/share/mysql5/mysql/mysql.server start &"
-alias vvmem="memcached -vv"
-alias gitstart="eval `ssh-agent`
-ssh-add ~/.ssh/id_rsa_git"
+alias grep="grep --exclude-dir='*.svn*' --color=auto"
+alias spec="spec --color --format specdoc --loadby mtime --reverse"
+alias df="df -h"
+alias date="date '+%Y-%m-%d %H:%M:%S'"
 
+[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
+[ -f ~/.zshrc.application ] && source ~/.zshrc.application
