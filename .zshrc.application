@@ -1,0 +1,13 @@
+#application aliases
+alias sta="sudo /opt/local/apache2/bin/apachectl"
+alias stp="sudo su - postgres -c '/opt/local/lib/postgresql82/bin/postgres -D /opt/local/var/db/postgresql82/defaultdb' &"
+alias stm="sudo /opt/local/share/mysql5/mysql/mysql.server start &"
+alias vm="memcached -vv"
+alias psql="psql82"
+
+#application exports
+export SVN_EDITOR="emacs"
+export MODULEBUILDRC="/Users/sugizou/perl5/.modulebuildrc"
+export PERL_MM_OPT="INSTALL_BASE=/Users/sugizou/perl5"
+export PERL5LIB="/Users/sugizou/perl5/lib/perl5:/Users/sugizou/perl5/lib/perl5/darwin-2level"
+
