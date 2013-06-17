@@ -1,6 +1,12 @@
+export LANG=ja_JP.UTF-8
+
 #zsh global options
+
 autoload -U compinit
 compinit
+autoload colors
+colors
+autoload -Uz vcs_info
 autoload predict-on
 
 setopt auto_cd 
@@ -12,11 +18,27 @@ setopt hist_ignore_dups
 setopt share_history
 
 zstyle ':completion:*' list-colors ''
+zstyle ':completion:*:default' menu select=1
+zstyle ':vcs_info:*' formats '%s:%b'
+zstyle ':vcs_info:*' actionformats '%s:%b(%a)'
+
+# watch: http://d.hatena.ne.jp/mollifier/20090814/p1
+precmd () {
+    psvar=()
+    LANG=en_US.UTF-8 vcs_info
+    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
+}
+
+function command_not_found_handler(){
+  echo "[31m[5m"
+  return 127
+}
 
 PROMPT=""
 RPROMPT2=""
-RPROMPT="%{[33m%}[%d]%{[m%}"
-RPROMPT2="%{[32m%}[%d]%{[m%}"
+RPROMPT="%1(v|%F{red}%1v%F{white}@%F{green}[%40<...<%~|%F{green}[%50<...<%~) by %F{white}%n%#%F{green}]%f"
+#RPROMPT="%1(v|%F{green}%1v%f|hoge)"
+RPROMPT2="%F{yellow}[%50<...<%~ by %F{white}%n%#%F{yellow}]%f"
 SPROMPT=""
 RSPROMPT="%r is correct? [n,y,a,e]: "
 
@@ -25,15 +47,16 @@ HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
-#base aliases
-alias ll="ls -la"
-alias ls="ls -G -w"
-alias rr="rm -rf"
-alias rm="rm -i"
-alias grep="grep --exclude-dir='*.svn*' --color=auto"
-alias spec="spec --color --format specdoc --loadby mtime --reverse"
-alias df="df -h"
-alias date="date '+%Y-%m-%d %H:%M:%S'"
+#base exports
+export LSCOLORS=hxfxcxdxbxegedAbAgAcAd
 
-[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
-[ -f ~/.zshrc.application ] && source ~/.zshrc.application
+[ -f ~/.zshrc.base ] && source ~/.zshrc.base
+#[ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
+#[ -f ~/.zshrc.application ] && source ~/.zshrc.application
+#[ -f ~/.zshrc.function ] && source ~/.zshrc.function
+[ -f ~/.zshrc.ruby ]  && source ~/.zshrc.ruby
+[ -f ~/.zshrc.perl ]  && source ~/.zshrc.perl
+[ -f ~/.zshrc.java ]  && source ~/.zshrc.java
+[ -f ~/.zshrc.other ] && source ~/.zshrc.other
+
+export PATH=/usr/local/bin:/usr/local/sbin:$PATH:$HOME/.rvm/bin:~/.self/bin # Add RVM to PATH for scripting
